@@ -1,0 +1,10 @@
+C:\Users\user\source\repos\PersonalFinanceApp\PersonalFinanceApp\bin\Debug\PersonalFinanceApp.exe.config
+C:\Users\user\source\repos\PersonalFinanceApp\PersonalFinanceApp\bin\Debug\PersonalFinanceApp.exe
+C:\Users\user\source\repos\PersonalFinanceApp\PersonalFinanceApp\bin\Debug\PersonalFinanceApp.pdb
+C:\Users\user\source\repos\PersonalFinanceApp\PersonalFinanceApp\obj\Debug\PersonalFinanceApp.csproj.AssemblyReference.cache
+C:\Users\user\source\repos\PersonalFinanceApp\PersonalFinanceApp\obj\Debug\PersonalFinanceApp.Form1.resources
+C:\Users\user\source\repos\PersonalFinanceApp\PersonalFinanceApp\obj\Debug\PersonalFinanceApp.Properties.Resources.resources
+C:\Users\user\source\repos\PersonalFinanceApp\PersonalFinanceApp\obj\Debug\PersonalFinanceApp.csproj.GenerateResource.cache
+C:\Users\user\source\repos\PersonalFinanceApp\PersonalFinanceApp\obj\Debug\PersonalFinanceApp.csproj.CoreCompileInputs.cache
+C:\Users\user\source\repos\PersonalFinanceApp\PersonalFinanceApp\obj\Debug\PersonalFinanceApp.exe
+C:\Users\user\source\repos\PersonalFinanceApp\PersonalFinanceApp\obj\Debug\PersonalFinanceApp.pdb
