@@ -1,7 +1,7 @@
 Není vybrano,
 Auto, Palivo, Údržba, Pojištění
 Domov, Pronájem, Obchodní výdaje, Oprava, NábytekZdraví, Léky, PojištěníOsobní náklady, Toaletní potřeby, KoníčkyOblečení, Oblečení, Boty, Jiné
-Výživa, Restaurace, Obchod
+Výživa, Restaurace, Potraviny
 Dárky,
 Rodinné výdaje, dítě
 Technika, Domácí spotřebiče, přenosná technika

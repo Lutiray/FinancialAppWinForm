@@ -9,9 +9,9 @@ namespace PersonalFinanceApp
 {
     public class FinanceManager
     {
-        private string connectionString = "\"Data Source=localhost;Initial Catalog=IncomeAndOutcome;Integrated Security=True;\""; 
-        private string categoriesFilePath = "C:\\Users\\user\\source\\repos\\PersonalFinanceApp\\PersonalFinanceApp\\Categories.txt";
-
+        private readonly string connectionString = "\"Data Source=localhost;Initial Catalog=IncomeAndOutcome;Integrated Security=True;\""; 
+        private readonly string categoriesFilePath = "C:\\Users\\user\\source\\repos\\PersonalFinanceApp\\PersonalFinanceApp\\Categories.txt";
+        
         public List<Transaction> Transactions { get; private set; }
         public List<Category> Categories { get; private set; }
 
@@ -19,6 +19,8 @@ namespace PersonalFinanceApp
         {
             Transactions = new List<Transaction>();
             Categories = LoadCategoriesFromTextFile();
+            LoadTransactionsFromDatabase();
+            SaveCategoriesToDatabase();
         }
 
         private List<Category> LoadCategoriesFromTextFile()
@@ -104,10 +106,10 @@ namespace PersonalFinanceApp
         public void AddTransaction(Transaction transaction)
         {
             Transactions.Add(transaction);
-            SaveTransactionToDatabase(transaction);
+            SaveTransactionsToDatabase();
         }
 
-        private void SaveTransactionToDatabase(Transaction transaction)
+        public void SaveTransactionsToDatabase()
         {
             try
             {
@@ -115,23 +117,83 @@ namespace PersonalFinanceApp
                 {
                     connection.Open();
 
-                    string commandText = "INSERT INTO Transactions (Amount, Date, Description, Type) " +
-                                         "VALUES (@Amount, @Date, @Description, @Type)";
-
-                    using (SqlCommand command = new SqlCommand(commandText, connection))
+                    foreach (Transaction transaction in Transactions)
                     {
-                        command.Parameters.AddWithValue("@Amount", transaction.Amount);
-                        command.Parameters.AddWithValue("@Date", transaction.Date);
-                        command.Parameters.AddWithValue("@Description", (transaction is Expenses expenses) ? expenses.Description : "");
-                        command.Parameters.AddWithValue("@Type", (transaction is Income) ? "Income" : "Expenses");
+                        string commandText = "INSERT INTO Transactions (Amount, Date, Description, Type, CategoryName) " +
+                                             "VALUES (@Amount, @Date, @Description, @Type, @CategoryName)";
 
-                        command.ExecuteNonQuery();
+                        using (SqlCommand command = new SqlCommand(commandText, connection))
+                        {
+                            command.Parameters.AddWithValue("@Amount", transaction.Amount);
+                            command.Parameters.AddWithValue("@Date", transaction.Date);
+                            command.Parameters.AddWithValue("@Description", (transaction is Expenses expenses) ? expenses.Description : "");
+                            command.Parameters.AddWithValue("@Type", (transaction is Income) ? "Income" : "Expenses");
+
+                            if (transaction is Expenses expensesTransaction)
+                            {
+                                command.Parameters.AddWithValue("@CategoryName", expensesTransaction.ExpensesCategory.Name);
+                            }
+                            else
+                            {
+                                command.Parameters.AddWithValue("@CategoryName", DBNull.Value);
+                            }
+
+                            command.ExecuteNonQuery();
+                        }
                     }
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error saving transaction to database: {ex.Message}");
+                Console.WriteLine($"Error saving transactions to SQL Server database: {ex.Message}");
+            }
+        }
+
+        private void LoadTransactionsFromDatabase()
+        {
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+                    connection.Open();
+
+                    string commandText = "SELECT * FROM Transactions";
+
+                    using (SqlCommand command = new SqlCommand(commandText, connection))
+                    {
+                        using (SqlDataReader reader = command.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                decimal amount = reader.GetDecimal(reader.GetOrdinal("Amount"));
+                                DateTime date = reader.GetDateTime(reader.GetOrdinal("Date"));
+                                string description = reader.GetString(reader.GetOrdinal("Description"));
+                                string type = reader.GetString(reader.GetOrdinal("Type"));
+
+                                if (type == "Income")
+                                {
+                                    Income income = new Income(amount, date);
+                                    Transactions.Add(income);
+                                }
+                                else if (type == "Expenses")
+                                {
+                                    string categoryName = reader.GetString(reader.GetOrdinal("CategoryName"));
+                                    Category category = Categories.FirstOrDefault(c => c.Name == categoryName);
+
+                                    if (category != null)
+                                    {
+                                        Expenses expenses = new Expenses(category, amount, date, description);
+                                        Transactions.Add(expenses);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error loading transactions from SQL Server database: {ex.Message}");
             }
         }
     }

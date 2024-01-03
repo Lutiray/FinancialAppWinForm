@@ -11,12 +11,12 @@ using System.Windows.Forms;
 
 namespace PersonalFinanceApp
 {
-    public partial class Form1 : Form
+    public partial class btnDeleteTransaction : Form
     {
         private FinanceManager managerFinance;
         private bool isInitialBalanceSet = false;
 
-        public Form1()
+        public btnDeleteTransaction()
         {
             InitializeComponent();
             managerFinance = new FinanceManager();
@@ -29,6 +29,7 @@ namespace PersonalFinanceApp
             cmbCategories.DisplayMember = "Name";
 
             cmbCategories.SelectedIndexChanged += cmbCategories_SelectedIndexChanged;
+            //btnDeleteTransaction.Click += btnDeleteTransaction_Click;
 
             cmbDescription.DropDownStyle = ComboBoxStyle.DropDownList;
             cmbCategories.DropDownStyle = ComboBoxStyle.DropDownList;
@@ -165,10 +166,12 @@ namespace PersonalFinanceApp
             }
         }
 
-        private void UpdateBalanceTextBox()
+        private void UpdateBalanceTextBox(List<Transaction> transactions = null)
         {
-            decimal incomeSum = managerFinance.Transactions?.OfType<Income>().Sum(i => i.Amount) ?? 0;
-            decimal expensesSum = managerFinance.Transactions?.OfType<Expenses>().Sum(o => o.Amount) ?? 0;
+            List<Transaction> transactionsToDisplay = transactions ?? managerFinance.Transactions;
+
+            decimal incomeSum = transactionsToDisplay?.OfType<Income>().Sum(i => i.Amount) ?? 0;
+            decimal expensesSum = transactionsToDisplay?.OfType<Expenses>().Sum(o => o.Amount) ?? 0;
 
             decimal balance = incomeSum - expensesSum;
 
@@ -208,6 +211,60 @@ namespace PersonalFinanceApp
                 string description = (transaction is Expenses expenses) ? expenses.Description : "";
 
                 dgvHistory.Rows.Add(type, amount.ToString("C2", new System.Globalization.CultureInfo("cs-CZ")), date, description);
+            }
+        }
+
+        private void btnDeleteTransaction_Click(object sender, EventArgs e)
+        {
+            if (dgvHistory.SelectedRows.Count > 0)
+            {
+                int selectedIndex = dgvHistory.SelectedRows[0].Index;
+                DataGridViewRow selectedRow = dgvHistory.Rows[selectedIndex];
+
+                foreach (DataGridViewColumn column in dgvHistory.Columns)
+                {
+                    Console.WriteLine($"Column Name: {column.Name}");
+                }
+                // Получите данные транзакции из DataGridView
+                string type = selectedRow.Cells["Type"].Value.ToString();
+                decimal amount = decimal.Parse(selectedRow.Cells["Amount"].Value.ToString());
+                DateTime date = DateTime.Parse(selectedRow.Cells["DateColumn"].Value.ToString());
+                string description = selectedRow.Cells["DescriptionColumn"].Value.ToString();
+
+                // Создайте объект транзакции на основе полученных данных
+                Transaction transactionToDelete;
+                if (type == "Příjmy")
+                {
+                    transactionToDelete = new Income(amount, date);
+                }
+                else
+                {
+                    // При удалении расхода, вам также потребуется имя категории
+                    string categoryName = selectedRow.Cells["CategoryColumn"].Value.ToString();
+                    Category category = managerFinance.Categories.FirstOrDefault(c => c.Name == categoryName);
+
+                    if (category != null)
+                    {
+                        transactionToDelete = new Expenses(category, amount, date, description);
+                    }
+                    else
+                    {
+                        // Обработайте ситуацию, если категория не найдена
+                        return;
+                    }
+                }
+
+                // Удалите транзакцию из списка и базы данных
+                managerFinance.Transactions.Remove(transactionToDelete);
+                managerFinance.SaveTransactionsToDatabase();
+
+                // Обновите DataGridView и баланс
+                PopulateTransactionHistory();
+                UpdateBalanceTextBox();
+            }
+            else
+            {
+                MessageBox.Show("Выберите транзакцию для удаления.", "Предупреждение", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
 
@@ -273,10 +330,12 @@ namespace PersonalFinanceApp
 
         }
 
-        private void UpdateRichTextBox()
+        private void UpdateRichTextBox(List<Transaction> transactions = null)
         {
-            decimal incomeSum = managerFinance.Transactions?.OfType<Income>().Sum(i => i.Amount) ?? 0;
-            decimal expensesSum = managerFinance.Transactions?.OfType<Expenses>().Sum(o => o.Amount) ?? 0;
+            List<Transaction> transactionsToDisplay = transactions ?? managerFinance.Transactions;
+
+            decimal incomeSum = transactionsToDisplay?.OfType<Income>().Sum(i => i.Amount) ?? 0;
+            decimal expensesSum = transactionsToDisplay?.OfType<Expenses>().Sum(o => o.Amount) ?? 0;
 
             string summaryText = $" {incomeSum.ToString("C2", new System.Globalization.CultureInfo("cs-CZ"))}\n" +
                                  $"- {expensesSum.ToString("C2", new System.Globalization.CultureInfo("cs-CZ"))}";
@@ -297,6 +356,7 @@ namespace PersonalFinanceApp
 
         private void btnShowTransaction_Click(object sender, EventArgs e)
         {
+            SetStartAndEndDateTimes();
             DisplayDataForSelectedPeriod();
         }
 
@@ -305,16 +365,23 @@ namespace PersonalFinanceApp
             DateTime startDate = dtpStartDate.Value;
             DateTime endDate = dtpEndDate.Value;
 
-            // Фильтруйте данные по выбранному периоду
             var filteredTransactions = managerFinance.Transactions
                 .Where(t => t.Date >= startDate && t.Date <= endDate)
                 .ToList();
 
             Console.WriteLine($"Количество транзакций в выбранном периоде: {filteredTransactions.Count}");
 
-            // Обновите отображение в DataGrid и на круговой диаграмме
             PopulateTransactionHistory(filteredTransactions);
             DisplayExpensesPieChart(filteredTransactions);
+            UpdateBalanceTextBox(filteredTransactions);
+            UpdateRichTextBox(filteredTransactions);
+        }
+
+        private void SetStartAndEndDateTimes()
+        {
+            dtpStartDate.Value = new DateTime(dtpStartDate.Value.Year, dtpStartDate.Value.Month, dtpStartDate.Value.Day, 0, 0, 0);
+
+            dtpEndDate.Value = new DateTime(dtpEndDate.Value.Year, dtpEndDate.Value.Month, dtpEndDate.Value.Day, 23, 59, 59);
         }
     }
 }

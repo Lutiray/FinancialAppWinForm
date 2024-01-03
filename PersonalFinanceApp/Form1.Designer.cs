@@ -1,6 +1,6 @@
 ﻿namespace PersonalFinanceApp
 {
-    partial class Form1
+    partial class btnDeleteTransaction
     {
         /// <summary>
         /// Обязательная переменная конструктора.
@@ -28,9 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.txtbAmount = new System.Windows.Forms.TextBox();
             this.btnExpenses = new System.Windows.Forms.Button();
             this.btnIncome = new System.Windows.Forms.Button();
@@ -50,6 +50,7 @@
             this.rtxtIncomeAndExpenses = new System.Windows.Forms.RichTextBox();
             this.dtpEndDate = new System.Windows.Forms.DateTimePicker();
             this.btnShowTransaction = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvHistory)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.chartExpenses)).BeginInit();
             this.SuspendLayout();
@@ -149,7 +150,7 @@
             // 
             this.dgvHistory.BackgroundColor = System.Drawing.SystemColors.ButtonHighlight;
             this.dgvHistory.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvHistory.Location = new System.Drawing.Point(4, 356);
+            this.dgvHistory.Location = new System.Drawing.Point(12, 344);
             this.dgvHistory.Name = "dgvHistory";
             this.dgvHistory.Size = new System.Drawing.Size(469, 153);
             this.dgvHistory.TabIndex = 18;
@@ -203,18 +204,18 @@
             // 
             // chartExpenses
             // 
-            chartArea2.Name = "ChartArea1";
-            this.chartExpenses.ChartAreas.Add(chartArea2);
-            legend2.Name = "Legend1";
-            this.chartExpenses.Legends.Add(legend2);
+            chartArea1.Name = "ChartArea1";
+            this.chartExpenses.ChartAreas.Add(chartArea1);
+            legend1.Name = "Legend1";
+            this.chartExpenses.Legends.Add(legend1);
             this.chartExpenses.Location = new System.Drawing.Point(12, 38);
             this.chartExpenses.Name = "chartExpenses";
             this.chartExpenses.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.SemiTransparent;
-            series2.ChartArea = "ChartArea1";
-            series2.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Pie;
-            series2.Legend = "Legend1";
-            series2.Name = "Series1";
-            this.chartExpenses.Series.Add(series2);
+            series1.ChartArea = "ChartArea1";
+            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Pie;
+            series1.Legend = "Legend1";
+            series1.Name = "Series1";
+            this.chartExpenses.Series.Add(series1);
             this.chartExpenses.Size = new System.Drawing.Size(300, 300);
             this.chartExpenses.TabIndex = 26;
             this.chartExpenses.Text = "Expences";
@@ -249,12 +250,25 @@
             this.btnShowTransaction.UseVisualStyleBackColor = false;
             this.btnShowTransaction.Click += new System.EventHandler(this.btnShowTransaction_Click);
             // 
-            // Form1
+            // button1
+            // 
+            this.button1.BackColor = System.Drawing.SystemColors.Window;
+            this.button1.Font = new System.Drawing.Font("Microsoft YaHei", 8F, System.Drawing.FontStyle.Bold);
+            this.button1.Location = new System.Drawing.Point(378, 503);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(93, 26);
+            this.button1.TabIndex = 32;
+            this.button1.Text = "Smazat";
+            this.button1.UseVisualStyleBackColor = false;
+            this.button1.Click += new System.EventHandler(this.btnDeleteTransaction_Click);
+            // 
+            // btnDeleteTransaction
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Moccasin;
-            this.ClientSize = new System.Drawing.Size(735, 528);
+            this.ClientSize = new System.Drawing.Size(735, 541);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.btnShowTransaction);
             this.Controls.Add(this.dtpEndDate);
             this.Controls.Add(this.rtxtIncomeAndExpenses);
@@ -274,7 +288,7 @@
             this.Controls.Add(this.btnIncome);
             this.Controls.Add(this.btnExpenses);
             this.Controls.Add(this.txtbAmount);
-            this.Name = "Form1";
+            this.Name = "btnDeleteTransaction";
             this.Text = "Form1";
             this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgvHistory)).EndInit();
@@ -304,6 +318,7 @@
         private System.Windows.Forms.RichTextBox rtxtIncomeAndExpenses;
         private System.Windows.Forms.DateTimePicker dtpEndDate;
         private System.Windows.Forms.Button btnShowTransaction;
+        private System.Windows.Forms.Button button1;
     }
 }
 
