@@ -1,4 +1,4 @@
-﻿using System;
+﻿/*using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace PersonalFinanceApp
 {
-    public class FinanceManager
+    public class FinanceManager1
     {
         private readonly string connectionString = "\"Data Source=localhost;Initial Catalog=IncomeAndOutcome;Integrated Security=True;\""; 
         private readonly string categoriesFilePath = "C:\\Users\\user\\source\\repos\\PersonalFinanceApp\\PersonalFinanceApp\\Categories.txt";
@@ -15,7 +15,7 @@ namespace PersonalFinanceApp
         public List<Transaction> Transactions { get; private set; }
         public List<Category> Categories { get; private set; }
 
-        public FinanceManager()
+        public FinanceManager1()
         {
             Transactions = new List<Transaction>();
             Categories = LoadCategoriesFromTextFile();
@@ -71,7 +71,7 @@ namespace PersonalFinanceApp
             return categories;
         }
 
-        private void SaveCategoriesToDatabase()
+        void SaveCategoriesToDatabase()
         {
             try
             {
@@ -149,7 +149,7 @@ namespace PersonalFinanceApp
             }
         }
 
-        private void LoadTransactionsFromDatabase()
+        public void LoadTransactionsFromDatabase()
         {
             try
             {
@@ -197,4 +197,4 @@ namespace PersonalFinanceApp
             }
         }
     }
-}
+}*/

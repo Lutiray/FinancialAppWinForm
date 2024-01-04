@@ -16,4 +16,4 @@ C:\Users\user\source\repos\PersonalFinanceApp\PersonalFinanceApp\bin\Debug\Entit
 C:\Users\user\source\repos\PersonalFinanceApp\PersonalFinanceApp\bin\Debug\EntityFramework.SqlServer.xml
 C:\Users\user\source\repos\PersonalFinanceApp\PersonalFinanceApp\bin\Debug\System.Data.SQLite.xml
 C:\Users\user\source\repos\PersonalFinanceApp\PersonalFinanceApp\obj\Debug\PersonalFinanceApp.csproj.CopyComplete
-C:\Users\user\source\repos\PersonalFinanceApp\PersonalFinanceApp\obj\Debug\PersonalFinanceApp.btnDeleteTransaction.resources
+C:\Users\user\source\repos\PersonalFinanceApp\PersonalFinanceApp\obj\Debug\PersonalFinanceApp.Form1.resources
