@@ -1,0 +1,20 @@
+Není vybrano,
+Jídlo a Nápoje, Restaurace, Nákupy potravin
+Bydlení, Nájemné, Služby
+Doprava, Benzín, MHD (Městská hromadná doprava), Údržba vozidla
+Oblečení a Obuv, Nákupy oblečení, Obuv, Praní a údržba oblečení
+Zábava a Rekreace, Kino a divadlo, Sportovní aktivity, Hudba a koncerty
+Zdraví a Krása, Lékárna, Zubař, Kosmetika
+Technologie, Mobilní tarif, Internet a TV, Opravy elektroniky
+Vzdělání, Kurzy a školení, Učebnice a materiály
+Cestování, Letenky, Ubytování, Stravování během cesty
+Domácnost, Čisticí prostředky, Spotřebiče,Nábytek
+Dary a Dobročinnost, Dary rodině a přátelům, Dobročinné příspěvky, Pomoc potřebným
+Výběr hotovosti,
+Jiné,
+
+
+
+
+
+
